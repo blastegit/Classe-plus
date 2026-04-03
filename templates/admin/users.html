@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% block title %}Admin - Gestion{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Gestion du campus</h1>
+
+<!-- CREER UN UTILISATEUR -->
+<div class="form-section">
+    <h2>➕ Créer un utilisateur</h2>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="action" value="creer_user">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Prénom</label>
+                <input type="text" name="prenom" placeholder="Jean" required>
+            </div>
+            <div class="form-group">
+                <label>Nom</label>
+                <input type="text" name="nom" placeholder="Dupont" required>
+            </div>
+            <div class="form-group">
+                <label>Identifiant</label>
+                <input type="text" name="username" placeholder="jdupont" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Mot de passe</label>
+                <input type="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <label>Rôle</label>
+                <select name="role" required>
+                    <option value="">-- Choisir --</option>
+                    <option value="etudiant">Étudiant</option>
+                    <option value="professeur">Professeur</option>
+                    <option value="admin">Administrateur</option>
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn">Créer l'utilisateur</button>
+    </form>
+</div>
+
+<!-- CREER UNE CLASSE -->
+<div class="form-section">
+    <h2>📚 Créer une classe</h2>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="action" value="creer_classe">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Nom de la classe</label>
+                <input type="text" name="nom_classe" placeholder="GCS2-A" required>
+            </div>
+        </div>
+        <button type="submit" class="btn">Créer la classe</button>
+    </form>
+</div>
+
+<!-- ASSIGNER UN ETUDIANT A UNE CLASSE -->
+<div class="form-section">
+    <h2>🔗 Assigner un étudiant à une classe</h2>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="action" value="assigner_classe">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Étudiant</label>
+                <select name="user_id" required>
+                    <option value="">-- Choisir --</option>
+                    {% for e in etudiants %}
+                        <option value="{{ e.id }}">{{ e.prenom }} {{ e.nom }} ({{ e.username }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Classe</label>
+                <select name="classe_id" required>
+                    <option value="">-- Choisir --</option>
+                    {% for c in classes %}
+                        <option value="{{ c.id }}">{{ c.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <button type="submit" class="btn">Assigner</button>
+    </form>
+</div>
+
+<!-- AJOUTER UN COURS -->
+<div class="form-section">
+    <h2>📅 Ajouter un cours</h2>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="action" value="ajouter_cours">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Classe</label>
+                <select name="classe_id" required>
+                    <option value="">-- Choisir --</option>
+                    {% for c in classes %}
+                        <option value="{{ c.id }}">{{ c.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Professeur</label>
+                <select name="professeur_id" required>
+                    <option value="">-- Choisir --</option>
+                    {% for p in professeurs %}
+                        <option value="{{ p.id }}">{{ p.prenom }} {{ p.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Matière</label>
+                <input type="text" name="matiere" placeholder="Cybersécurité" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Jour</label>
+                <select name="jour" required>
+                    <option value="Lundi">Lundi</option>
+                    <option value="Mardi">Mardi</option>
+                    <option value="Mercredi">Mercredi</option>
+                    <option value="Jeudi">Jeudi</option>
+                    <option value="Vendredi">Vendredi</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Heure début</label>
+                <input type="time" name="start_time" required>
+            </div>
+            <div class="form-group">
+                <label>Heure fin</label>
+                <input type="time" name="end_time" required>
+            </div>
+        </div>
+        <button type="submit" class="btn">Ajouter le cours</button>
+    </form>
+</div>
+
+<!-- LISTE DES UTILISATEURS -->
+<div class="form-section">
+    <h2>👥 Utilisateurs enregistrés</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Identifiant</th>
+                    <th>Prénom</th>
+                    <th>Nom</th>
+                    <th>Rôle</th>
+                    <th>Classe</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for u in users %}
+                <tr>
+                    <td>{{ u.id }}</td>
+                    <td>{{ u.username }}</td>
+                    <td>{{ u.prenom or '-' }}</td>
+                    <td>{{ u.nom or '-' }}</td>
+                    <td>
+                        {% if u.role == 'admin' %}
+                            <span class="badge badge-admin">Admin</span>
+                        {% elif u.role == 'professeur' %}
+                            <span class="badge badge-prof">Professeur</span>
+                        {% else %}
+                            <span class="badge badge-etudiant">Étudiant</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ u.classe_associee.nom if u.classe_associee else '-' }}</td>
+                    <td>
+                        {% if u.username != 'admin' %}
+                        <form method="POST" style="display:inline;" onsubmit="return confirm('Supprimer cet utilisateur ?');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <input type="hidden" name="action" value="supprimer_user">
+                            <input type="hidden" name="user_id" value="{{ u.id }}">
+                            <button type="submit" class="btn btn-danger btn-small">Supprimer</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- LISTE DES CLASSES -->
+<div class="form-section">
+    <h2>🏫 Classes</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom</th>
+                    <th>Nb étudiants</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in classes %}
+                <tr>
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.nom }}</td>
+                    <td>{{ c.etudiants|length }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- LISTE DES COURS -->
+<div class="form-section">
+    <h2>📖 Cours programmés</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Matière</th>
+                    <th>Classe</th>
+                    <th>Professeur</th>
+                    <th>Jour</th>
+                    <th>Horaire</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in cours_liste %}
+                <tr>
+                    <td>{{ c.matiere }}</td>
+                    <td>{{ c.classe.nom if c.classe else '-' }}</td>
+                    <td>{{ c.professeur.prenom }} {{ c.professeur.nom }}</td>
+                    <td>{{ c.jour }}</td>
+                    <td>{{ c.start_time }} - {{ c.end_time }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

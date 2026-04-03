@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Mes notes{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Mes notes</h1>
+
+{% if moyenne %}
+<div class="cards-grid">
+    <div class="card">
+        <h3>Moyenne générale</h3>
+        <div class="big-number">{{ moyenne }}/20</div>
+    </div>
+</div>
+{% endif %}
+
+{% if notes %}
+<div class="table-wrapper">
+    <table>
+        <thead>
+            <tr>
+                <th>Projet / Évaluation</th>
+                <th>Note</th>
+                <th>Professeur</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for n in notes %}
+            <tr>
+                <td>{{ n.projet }}</td>
+                <td><strong>{{ n.valeur }}/20</strong></td>
+                <td>{{ n.professeur_rel.prenom }} {{ n.professeur_rel.nom }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<div class="form-section">
+    <p>Aucune note pour le moment.</p>
+</div>
+{% endif %}
+{% endblock %}

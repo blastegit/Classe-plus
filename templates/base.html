@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classe+ | {% block title %}Accueil{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+    {% if session.get('user_id') %}
+    <!-- barre de navigation -->
+    <nav class="navbar">
+        <a href="{{ url_for('home') }}" class="logo">🎓 Classe+</a>
+        <div class="nav-links">
+            {% if session.get('role') == 'admin' %}
+                <a href="{{ url_for('admin_home') }}">Tableau de bord</a>
+                <a href="{{ url_for('admin_users') }}">Gestion</a>
+            {% elif session.get('role') == 'professeur' %}
+                <a href="{{ url_for('prof_home') }}">Accueil</a>
+                <a href="{{ url_for('prof_edt') }}">Emploi du temps</a>
+                <a href="{{ url_for('prof_notes') }}">Notes</a>
+                <a href="{{ url_for('prof_appel') }}">Appel</a>
+            {% elif session.get('role') == 'etudiant' %}
+                <a href="{{ url_for('etu_home') }}">Accueil</a>
+                <a href="{{ url_for('etu_edt') }}">Emploi du temps</a>
+                <a href="{{ url_for('etu_notes') }}">Mes notes</a>
+                <a href="{{ url_for('etu_absences') }}">Absences</a>
+            {% endif %}
+            <a href="{{ url_for('messages') }}">Messages</a>
+            <span class="user-info">{{ session.get('username') }} ({{ session.get('role') }})</span>
+            <a href="{{ url_for('logout') }}" class="btn-logout">Déconnexion</a>
+        </div>
+    </nav>
+    {% endif %}
+
+    <div class="container">
+        <!-- messages flash -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="flash {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

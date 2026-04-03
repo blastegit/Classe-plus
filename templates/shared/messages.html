@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% block title %}Messagerie{% endblock %}
+
+{% block content %}
+<h1 class="page-title">💬 Messagerie</h1>
+
+<!-- formulaire pour envoyer un message -->
+<div class="form-section">
+    <h2>Envoyer un message</h2>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Destinataire (individuel)</label>
+                <select name="destinataire_id">
+                    <option value="">-- Choisir un utilisateur --</option>
+                    {% for u in users %}
+                        {% if u.id != me.id %}
+                            <option value="{{ u.id }}">{{ u.prenom }} {{ u.nom }} ({{ u.role }})</option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Ou envoyer à une classe</label>
+                <select name="classe_id">
+                    <option value="">-- Choisir une classe --</option>
+                    {% for c in classes %}
+                        <option value="{{ c.id }}">{{ c.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Message</label>
+            <textarea name="contenu" rows="4" placeholder="Tapez votre message ici..." required></textarea>
+        </div>
+        <button type="submit" class="btn">Envoyer</button>
+    </form>
+</div>
+
+<!-- messages recus -->
+<div class="form-section">
+    <h2>📥 Messages reçus</h2>
+    {% if messages %}
+        {% for msg in messages %}
+        <div class="message-item">
+            <div class="msg-header">
+                <span class="msg-from">{{ msg.expediteur.prenom }} {{ msg.expediteur.nom }} ({{ msg.expediteur.role }})</span>
+                <span>{{ msg.date_envoi.strftime('%d/%m/%Y %H:%M') if msg.date_envoi else '' }}</span>
+            </div>
+            <div class="msg-content">{{ msg.contenu }}</div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Aucun message pour le moment.</p>
+    {% endif %}
+</div>
+{% endblock %}

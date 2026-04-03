@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Admin - Tableau de bord{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1>Bienvenue, Administrateur</h1>
+    <p>Gérez les utilisateurs, classes et cours depuis cette interface.</p>
+</div>
+
+<div class="cards-grid">
+    <div class="card">
+        <h3>Utilisateurs</h3>
+        <div class="big-number">{{ nb_users }}</div>
+        <p>comptes créés</p>
+    </div>
+    <div class="card">
+        <h3>Classes</h3>
+        <div class="big-number">{{ nb_classes }}</div>
+        <p>classes actives</p>
+    </div>
+    <div class="card">
+        <h3>Étudiants</h3>
+        <div class="big-number">{{ nb_etudiants }}</div>
+        <p>inscrits</p>
+    </div>
+    <div class="card">
+        <h3>Professeurs</h3>
+        <div class="big-number">{{ nb_profs }}</div>
+        <p>enregistrés</p>
+    </div>
+    <div class="card">
+        <h3>Cours</h3>
+        <div class="big-number">{{ nb_cours }}</div>
+        <p>programmés</p>
+    </div>
+</div>
+
+<div style="margin-top: 20px;">
+    <a href="{{ url_for('admin_users') }}" class="btn">Accéder à la gestion →</a>
+</div>
+{% endblock %}

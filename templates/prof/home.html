@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Espace Professeur{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1>Bienvenue {{ user.prenom }} {{ user.nom }} 👋</h1>
+    <p>Espace professeur — gérez vos cours, notes et appels.</p>
+</div>
+
+<div class="cards-grid">
+    <div class="card">
+        <h3>📖 Mes cours</h3>
+        <div class="big-number">{{ nb_cours }}</div>
+        <p>cours programmés</p>
+        <br>
+        <a href="{{ url_for('prof_edt') }}" class="btn btn-small">Emploi du temps</a>
+    </div>
+    <div class="card">
+        <h3>👥 Mes élèves</h3>
+        <div class="big-number">{{ nb_eleves }}</div>
+        <p>dans mes classes</p>
+    </div>
+    <div class="card">
+        <h3>📝 Notes</h3>
+        <p>Attribuer et modifier les notes de vos élèves.</p>
+        <br>
+        <a href="{{ url_for('prof_notes') }}" class="btn btn-small">Gérer les notes</a>
+    </div>
+    <div class="card">
+        <h3>📋 Appel</h3>
+        <p>Enregistrer les absences et retards.</p>
+        <br>
+        <a href="{{ url_for('prof_appel') }}" class="btn btn-small">Faire l'appel</a>
+    </div>
+</div>
+{% endblock %}

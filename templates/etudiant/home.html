@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Espace Étudiant{% endblock %}
+
+{% block content %}
+<div class="welcome-section">
+    <h1>Bonjour {{ user.prenom }} {{ user.nom }} 👋</h1>
+    <p>Bienvenue sur ton espace étudiant — classe : {{ user.classe_associee.nom if user.classe_associee else 'Non assigné' }}</p>
+</div>
+
+<div class="cards-grid">
+    <div class="card">
+        <h3>📝 Mes notes</h3>
+        <div class="big-number">{{ nb_notes }}</div>
+        <p>notes enregistrées</p>
+        <br>
+        <a href="{{ url_for('etu_notes') }}" class="btn btn-small">Voir mes notes</a>
+    </div>
+    <div class="card">
+        <h3>❌ Absences</h3>
+        <div class="big-number">{{ nb_absences }}</div>
+        <p>absences comptées</p>
+        <br>
+        <a href="{{ url_for('etu_absences') }}" class="btn btn-small">Détails</a>
+    </div>
+    <div class="card">
+        <h3>⏰ Retards</h3>
+        <div class="big-number">{{ nb_retards }}</div>
+        <p>retards comptés</p>
+    </div>
+</div>
+
+<div style="margin-top: 15px;">
+    <a href="{{ url_for('etu_edt') }}" class="btn">📅 Voir mon emploi du temps</a>
+    <a href="{{ url_for('messages') }}" class="btn" style="margin-left: 10px;">💬 Messagerie</a>
+</div>
+{% endblock %}

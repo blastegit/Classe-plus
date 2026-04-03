@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: classe-plus-web
+    ports:
+      - "5000:5000"
+    volumes:
+      # base de donnees persistante
+      - ./instance:/app/instance
+    restart: unless-stopped
+    environment:
+      - FLASK_ENV=production

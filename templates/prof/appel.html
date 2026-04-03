@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block title %}Appel{% endblock %}
+
+{% block content %}
+<h1 class="page-title">Faire l'appel</h1>
+
+<!-- formulaire d'appel -->
+<div class="form-section">
+    <h2>📋 Enregistrer une absence ou un retard</h2>
+    <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Étudiant</label>
+                <select name="etudiant_id" required>
+                    <option value="">-- Choisir --</option>
+                    {% for e in eleves %}
+                        <option value="{{ e.id }}">{{ e.prenom }} {{ e.nom }} ({{ e.classe_associee.nom if e.classe_associee else '?' }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Statut</label>
+                <select name="statut" required>
+                    <option value="Absent">Absent</option>
+                    <option value="Retard">Retard</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" name="date" value="{{ today if today else '' }}" required>
+            </div>
+        </div>
+        <button type="submit" class="btn">Enregistrer</button>
+    </form>
+</div>
+
+<!-- historique recent -->
+{% if absences_recentes %}
+<div class="form-section">
+    <h2>📅 Historique récent</h2>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Étudiant</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in absences_recentes %}
+                <tr>
+                    <td>{{ a.date }}</td>
+                    <td>{{ a.etudiant.prenom }} {{ a.etudiant.nom }}</td>
+                    <td>
+                        {% if a.statut == 'Absent' %}
+                            <span class="badge badge-absent">Absent</span>
+                        {% else %}
+                            <span class="badge badge-retard">Retard</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
