@@ -4,11 +4,22 @@ services:
   web:
     build: .
     container_name: classe-plus-web
-    ports:
-      - "5000:5000"
     volumes:
       # base de donnees persistante
       - ./instance:/app/instance
     restart: unless-stopped
     environment:
       - FLASK_ENV=production
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.classeplus.rule=Host(`intranet.pro-clement.fr`)"
+      - "traefik.http.routers.classeplus.entrypoints=websecure"
+      - "traefik.http.routers.classeplus.tls.certresolver=myresolver"
+      - "traefik.http.services.classeplus.loadbalancer.server.port=5000"
+      - "traefik.docker.network=web"
+    networks:
+      - web
+
+networks:
+  web:
+    external: true

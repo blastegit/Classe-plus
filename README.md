@@ -88,7 +88,7 @@ La pipeline GitHub Actions exécute les étapes suivantes à chaque push :
 
 ```
 CLASSE-PLUS/
-├── .github/workflows/pipeline.yml
+├── .github/workflows/ci-cd.yml
 ├── instance/campus.db
 ├── static/style.css
 ├── templates/
@@ -118,7 +118,3 @@ CLASSE-PLUS/
 ├── security.log
 └── sonar-project.properties
 ```
-
-## Auteurs
-
-Groupe X — GCS2 Guardia Cybersecurity School — 2025/2026
