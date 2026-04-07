@@ -120,8 +120,10 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
+            set -e
             cd /opt/classe-plus
-            git pull origin main
+            git fetch origin
+            git reset --hard origin/main
             docker compose down
             docker compose up -d --build
             echo "Déploiement terminé"
