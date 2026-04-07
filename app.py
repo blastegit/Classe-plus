@@ -465,7 +465,7 @@ if __name__ == '__main__':
         db.create_all()
         # compte admin par defaut
         if not User.query.filter_by(username='admin').first():
-            hashed = bcrypt.generate_password_hash('admin').decode('utf-8')
+            hashed = bcrypt.generate_password_hash('clementxtitouan_88_257043553354225654225532345*GJDLEV3564').decode('utf-8')
             admin = User(username='admin', password=hashed, role='admin', nom='Systeme', prenom='Admin')
             db.session.add(admin)
             db.session.commit()

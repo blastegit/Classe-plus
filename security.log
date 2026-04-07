@@ -1,0 +1,14 @@
+2026-04-07 13:01:56,330 - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+2026-04-07 13:01:56,330 - INFO - [33mPress CTRL+C to quit[0m
+2026-04-07 13:02:09,865 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:09] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-07 13:02:09,875 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:09] "GET /login HTTP/1.1" 200 -
+2026-04-07 13:02:09,914 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:09] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-07 13:02:13,531 - WARNING - Echec connexion : admin
+2026-04-07 13:02:13,532 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:13] "POST /login HTTP/1.1" 200 -
+2026-04-07 13:02:13,558 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:13] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
+2026-04-07 13:02:29,623 - INFO - Connexion reussie : admin
+2026-04-07 13:02:29,624 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:29] "[32mPOST /login HTTP/1.1[0m" 302 -
+2026-04-07 13:02:29,628 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:29] "[32mGET / HTTP/1.1[0m" 302 -
+2026-04-07 13:02:29,645 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:29] "GET /admin/home HTTP/1.1" 200 -
+2026-04-07 13:02:29,660 - INFO - 127.0.0.1 - - [07/Apr/2026 13:02:29] "[36mGET /static/style.css HTTP/1.1[0m" 304 -
